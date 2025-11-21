@@ -24,8 +24,5 @@ jobs:
           host: 172.206.82.46
           username: azureuser   # e.g., azureuser
           key: ${{ secrets.AZURE_PRIVATE_KEY }}  # your SSH private key in GitHub secrets
-          source: |
-            app.py
-            templates/*
-            static/*
+          source: "."
           target: "/home/azureuser/ateeq/python-app"
