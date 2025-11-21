@@ -26,6 +26,6 @@ jobs:
           key: ${{ secrets.AZURE_PRIVATE_KEY }}  # your SSH private key in GitHub secrets
           source: |
             app.py
-            templates
-            static
+            templates/*
+            static/*
           target: "/home/azureuser/ateeq/python-app"
