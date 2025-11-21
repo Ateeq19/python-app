@@ -1,33 +1,31 @@
-name: Deploy React App to Azure VM
+name: Deploy Python App to Server
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      # Optional: set up Python (if you want to run scripts on GitHub runner)
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '18'
+          python-version: '3.11'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build React app
-        run: npm run build
-
-      - name: Copy build folder to Azure VM
+      - name: Copy Python app to server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.AZURE_HOST }}
-          username: ${{ secrets.AZURE_USER }}
-          key: ${{ secrets.AZURE_PRIVATE_KEY }}
-          source: "build/*"
+          host: 172.206.82.46
+          username: azureuser   # e.g., azureuser
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}  # your SSH private key in GitHub secrets
+          source: |
+            app.py
+            templates/*
+            static/*
           target: "/home/azureuser/ateeq/python-app"
